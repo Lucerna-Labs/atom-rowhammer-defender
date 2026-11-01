@@ -244,8 +244,8 @@ impl eframe::App for App {
                             .strong()
                             .color(theme::TEXT),
                     );
-                    let (text, color) = if snap.trips > 0 {
-                        ("TRIPPED", theme::DANGER)
+                    let (text, color) = if snap.halted {
+                        ("HALTED", theme::DANGER)
                     } else if snap.armed {
                         ("ARMED", theme::OK)
                     } else {
@@ -296,6 +296,16 @@ impl eframe::App for App {
                         "TRIPS",
                         snap.trips,
                         if snap.trips > 0 {
+                            theme::DANGER
+                        } else {
+                            theme::OK
+                        },
+                    );
+                    App::card(
+                        ui,
+                        "HALTED",
+                        snap.halted,
+                        if snap.halted {
                             theme::DANGER
                         } else {
                             theme::OK

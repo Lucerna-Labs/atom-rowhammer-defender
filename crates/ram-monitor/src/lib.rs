@@ -223,6 +223,8 @@ pub struct MonitorStats {
     pub trips: u64,
     /// Reads-to-trip of the first receipt, if any.
     pub trip_reads: Option<u64>,
+    /// Whether execution stopped on the first simulated rupture.
+    pub halted: bool,
 }
 
 /// The monitor: drives `feed` from `source` through the concentration gate.
@@ -535,6 +537,31 @@ impl RamMonitor {
                 if stats.trip_reads.is_none() {
                     stats.trip_reads = Some(receipt.trip_reads);
                 }
+            }
+        }
+        stats.emitted = feed.frames() - frames_before;
+        stats
+    }
+
+    /// Run a portable simulation until exhaustion, budget, or first rupture.
+    pub fn run_until_rupture<S: AccessSource + ?Sized>(
+        &mut self,
+        feed: &mut SwarmLiveFeed,
+        source: &mut S,
+        max_samples: u64,
+    ) -> MonitorStats {
+        let mut stats = MonitorStats::default();
+        let frames_before = feed.frames();
+        while stats.samples < max_samples {
+            let Some(sample) = source.next_sample() else {
+                break;
+            };
+            stats.samples += 1;
+            if let Some(receipt) = self.observe_sample(feed, sample) {
+                stats.trips = 1;
+                stats.trip_reads = Some(receipt.trip_reads);
+                stats.halted = true;
+                break;
             }
         }
         stats.emitted = feed.frames() - frames_before;

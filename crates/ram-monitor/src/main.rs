@@ -131,13 +131,14 @@ fn main() {
             }
         }
     };
-    let stats = monitor.run(&mut feed, source.as_mut(), args.samples);
+    let stats = monitor.run_until_rupture(&mut feed, source.as_mut(), args.samples);
     let trips = feed.stats().trips + monitor.secondary_trips();
     println!(
-        "samples={} frames={} trips={} armed={} evidence={}",
+        "samples={} frames={} trips={} halted={} armed={} evidence={}",
         stats.samples,
         feed.frames() + monitor.secondary_frames(),
         trips,
+        stats.halted,
         feed.is_armed() && monitor.secondary_armed(),
         monitor.evidence.summary()
     );

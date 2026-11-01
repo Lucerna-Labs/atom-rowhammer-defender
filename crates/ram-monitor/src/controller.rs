@@ -55,6 +55,7 @@ pub struct Snapshot {
     pub emitted: u64,
     pub trips: u64,
     pub armed: bool,
+    pub halted: bool,
     pub source_name: String,
     pub evidence: String,
     pub last_receipt: Option<String>,
@@ -129,6 +130,7 @@ impl Controller {
             let mut log: Vec<String> = Vec::new();
             let mut last_trips = 0u64;
             let mut samples = 0u64;
+            let mut halted = false;
             loop {
                 while let Ok(cmd) = rx.try_recv() {
                     match cmd {
@@ -147,6 +149,7 @@ impl Controller {
                             );
                             feed = armed_feed();
                             last_trips = 0;
+                            halted = false;
                             log.clear();
                         }
                         Command::Reset => {
@@ -156,7 +159,10 @@ impl Controller {
                                 settings.thresh,
                             );
                             feed = armed_feed();
+                            sources.clear();
+                            source_name = "none (reset)".to_string();
                             last_trips = 0;
+                            halted = false;
                             log.clear();
                         }
                         Command::LoadTrace {
@@ -175,18 +181,24 @@ impl Controller {
                             );
                             feed = armed_feed();
                             last_trips = 0;
+                            halted = false;
                             samples = 0;
                             log.clear();
                         }
                     }
                 }
-                for source in sources.iter_mut() {
-                    for _ in 0..512 {
-                        let Some(sample) = source.next_sample() else {
-                            break;
-                        };
-                        samples += 1;
-                        let _ = monitor.observe_sample(&mut feed, sample);
+                if !halted {
+                    'sources: for source in sources.iter_mut() {
+                        for _ in 0..512 {
+                            let Some(sample) = source.next_sample() else {
+                                break;
+                            };
+                            samples += 1;
+                            if monitor.observe_sample(&mut feed, sample).is_some() {
+                                halted = true;
+                                break 'sources;
+                            }
+                        }
                     }
                 }
                 let stats = feed.stats();
@@ -215,6 +227,7 @@ impl Controller {
                     emitted: feed.frames() + monitor.secondary_frames(),
                     trips,
                     armed: feed.is_armed() && monitor.secondary_armed(),
+                    halted,
                     source_name: source_name.clone(),
                     evidence: monitor.evidence.summary(),
                     last_receipt: log.last().cloned(),

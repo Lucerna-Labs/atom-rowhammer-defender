@@ -24,7 +24,7 @@ fn uploaded_trace_cli_trips_and_malformed_trace_fails_closed() {
         .unwrap();
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(stdout.contains("samples=130"), "{stdout}");
+    assert!(stdout.contains("halted=true"), "{stdout}");
     assert!(stdout.contains("trips="), "{stdout}");
     assert!(!stdout.contains("trips=0"), "{stdout}");
 

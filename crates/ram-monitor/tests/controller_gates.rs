@@ -156,5 +156,7 @@ fn g4_uploaded_trace_is_the_only_source_and_trips() {
     );
     assert_eq!(after.samples, 130);
     assert!(after.trips >= 1);
+    assert!(after.halted);
+    assert!(after.samples <= 130);
     assert!(after.last_receipt.is_some());
 }

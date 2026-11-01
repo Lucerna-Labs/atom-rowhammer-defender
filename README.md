@@ -12,6 +12,9 @@ recurrence, and bounded capacity compositions into independent immutable no-copy
 swarms. Runtime never receives a named attack family, expected answer, route,
 vote, or classifier.
 
+The first rupture halts consumption of the current simulation trace. Reload or
+Apply explicitly starts a new run; Reset clears the current source and receipt.
+
 > **Boundary:** this branch opens no CPU counter, PMU, perf source, or hardware
 > ring. A rupture is a simulated emergent numerical response—not a physical
 > detection verdict or proof that real memory damage was prevented.

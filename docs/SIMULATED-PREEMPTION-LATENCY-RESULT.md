@@ -34,7 +34,7 @@ Integrated regression:
 - broader timed corpus: 2,048/2,048 attacks, 0/123 controls;
 - untimed known-technique corpus: 8,704/8,704 attacks, 0/2,048 controls;
 - exact latency replay SHA-256
-  `ed761802bf6b509e0d3a4736241d255439038f18bcef61ef8a217d893606ab12`;
+  `5a51be87cab12333d7a348c2a9bcab2d3fb0e1d10b275e0690abe2e14f845ec4`;
 - thermal, broader timed, and untimed hashes remain respectively
   `7c4a45d0ec838e18e99e456d71851a7d41a6733be184e6d942fd36b9f195f03c`,
   `d351cd03abe5f0357e7f2c36aef7746a8100d6fbc591298fe70184f4311af987`,

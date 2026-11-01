@@ -30,3 +30,9 @@ and daemon-reloaded. `systemctl status ram-monitor.service` now returns unit not
 found; no background monitor process exists. Recoverable backup SHA-256
 `0e29a4ef0c65ea66b61b6cd7ad26fce17888740f3592e06d7c825745efe854a2`
 is under `outputs/removed-cpu-ring-service-v1`.
+
+The corrected GUI was installed with hash
+`dc0b4406823504ce65091296ffd13d900b8119a958039a7d679fced9a3920436`.
+The exact desktop entry launched it successfully and the installed process stayed
+healthy for the five-second acceptance interval. The removed service unit remained
+absent.

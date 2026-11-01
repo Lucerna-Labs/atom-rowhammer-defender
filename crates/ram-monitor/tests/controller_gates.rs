@@ -76,15 +76,17 @@ fn g2_stricter_threshold_suppresses_mixed_trace() {
         thresh: 64,
         ..Settings::default()
     };
-    let before = c.snapshot().samples;
     c.apply(stricter);
-    let _ = wait_for(&c, |s| s.armed && s.log.is_empty() && s.trips == 0, 10);
+    let off = wait_for(&c, |s| !s.enabled && s.log.is_empty() && s.trips == 0, 10);
+    assert!(!off.enabled, "G2: Apply returns the simulation to OFF");
+    c.set_enabled(true);
+    let _ = wait_for(&c, |s| s.enabled && s.samples > 0, 10);
     std::thread::sleep(Duration::from_millis(500));
     let s = c.snapshot();
     assert_eq!(s.trips, 0, "G2: stricter thresh suppresses the mixed trace");
     assert!(
-        s.samples > before,
-        "monitor still consuming samples after apply"
+        s.samples > 0,
+        "monitor consumes samples only after explicit ON"
     );
 }
 
@@ -149,6 +151,13 @@ fn g4_uploaded_trace_is_the_only_source_and_trips() {
         })
         .collect();
     controller.load_trace(samples, "uploaded.trace".to_string());
+    let staged = wait_for(
+        &controller,
+        |snapshot| snapshot.source_name == "uploaded.trace" && !snapshot.enabled,
+        10,
+    );
+    assert_eq!(staged.samples, 0, "upload must stay staged while OFF");
+    controller.set_enabled(true);
     let after = wait_for(
         &controller,
         |snapshot| snapshot.source_name == "uploaded.trace" && snapshot.trips >= 1,
@@ -159,4 +168,46 @@ fn g4_uploaded_trace_is_the_only_source_and_trips() {
     assert!(after.halted);
     assert!(after.samples <= 130);
     assert!(after.last_receipt.is_some());
+}
+
+#[test]
+fn g5_off_stops_consumption_and_on_restarts_from_the_beginning() {
+    let controller = Controller::spawn(|_| Vec::new());
+    let samples = (0..100_000_u64)
+        .map(|index| ram_monitor::AccessSample {
+            addr: index << 6,
+            time_ns: Some(index * 50),
+            address_kind: ram_monitor::AddressKind::Synthetic,
+            ..ram_monitor::AccessSample::default()
+        })
+        .collect();
+    controller.load_trace(samples, "long-safe.trace".to_string());
+    let staged = wait_for(
+        &controller,
+        |snapshot| snapshot.source_name == "long-safe.trace",
+        10,
+    );
+    assert!(!staged.enabled);
+    assert_eq!(staged.samples, 0);
+
+    controller.set_enabled(true);
+    let running = wait_for(
+        &controller,
+        |snapshot| snapshot.enabled && snapshot.samples > 0,
+        10,
+    );
+    assert!(running.samples > 0);
+    controller.set_enabled(false);
+    let stopped = wait_for(&controller, |snapshot| !snapshot.enabled, 10);
+    let stopped_samples = stopped.samples;
+    std::thread::sleep(Duration::from_millis(200));
+    assert_eq!(controller.snapshot().samples, stopped_samples);
+
+    controller.set_enabled(true);
+    let restarted = wait_for(
+        &controller,
+        |snapshot| snapshot.enabled && snapshot.samples > 0,
+        10,
+    );
+    assert!(restarted.samples <= 512, "ON restarts from the beginning");
 }

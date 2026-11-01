@@ -118,7 +118,7 @@ impl App {
                     .unwrap_or("uploaded trace")
                     .to_string();
                 self.controller.load_trace(samples, name.clone());
-                self.upload_status = format!("Loaded {name}: {count} samples");
+                self.upload_status = format!("Loaded {name}: {count} samples — OFF");
                 self.trace_path = path.display().to_string();
             }
             Err(error) => self.upload_status = format!("Trace rejected: {error}"),
@@ -207,6 +207,26 @@ impl eframe::App for App {
                     self.load_trace_path(&path);
                 }
                 ui.label(egui::RichText::new(&self.upload_status).size(10.5).color(theme::ACCENT));
+                let toggle_text = if snap.enabled { "TURN OFF" } else { "TURN ON" };
+                let toggle_color = if snap.enabled { theme::DANGER } else { theme::OK };
+                let toggle = ui.add(
+                    egui::Button::new(
+                        egui::RichText::new(toggle_text)
+                            .size(16.0)
+                            .strong()
+                            .color(theme::BG),
+                    )
+                    .fill(toggle_color)
+                    .min_size(egui::vec2(230.0, 40.0)),
+                );
+                if toggle.clicked() {
+                    self.controller.set_enabled(!snap.enabled);
+                }
+                ui.label(
+                    egui::RichText::new("Uploads are staged only. ON starts from the beginning; OFF stops immediately.")
+                        .size(10.5)
+                        .color(theme::TEXT_DIM),
+                );
                 ui.add_space(12.0);
 
                 ui.horizontal(|ui| {
@@ -246,10 +266,10 @@ impl eframe::App for App {
                     );
                     let (text, color) = if snap.halted {
                         ("HALTED", theme::DANGER)
-                    } else if snap.armed {
-                        ("ARMED", theme::OK)
+                    } else if snap.enabled {
+                        ("ON", theme::OK)
                     } else {
-                        ("DISARMED", theme::TEXT_DIM)
+                        ("OFF", theme::TEXT_DIM)
                     };
                     egui::Frame::new()
                         .fill(color.gamma_multiply(0.15))
@@ -309,6 +329,16 @@ impl eframe::App for App {
                             theme::DANGER
                         } else {
                             theme::OK
+                        },
+                    );
+                    App::card(
+                        ui,
+                        "POWER",
+                        if snap.enabled { "ON" } else { "OFF" },
+                        if snap.enabled {
+                            theme::OK
+                        } else {
+                            theme::TEXT_DIM
                         },
                     );
                 });

@@ -55,6 +55,7 @@ pub struct Snapshot {
     pub emitted: u64,
     pub trips: u64,
     pub armed: bool,
+    pub enabled: bool,
     pub halted: bool,
     pub source_name: String,
     pub evidence: String,
@@ -74,6 +75,8 @@ pub enum Command {
         samples: Vec<AccessSample>,
         name: String,
     },
+    /// Explicitly start or stop simulation processing.
+    SetEnabled(bool),
 }
 
 fn splitmix(mut value: u64) -> u64 {
@@ -118,6 +121,7 @@ impl Controller {
         std::thread::spawn(move || {
             let mut settings = Settings::default();
             let mut sources = factory(&settings);
+            let mut enabled = !sources.is_empty();
             let mut loaded_trace: Option<Vec<AccessSample>> = None;
             let mut source_name = if sources.is_empty() {
                 "none".to_string()
@@ -136,12 +140,8 @@ impl Controller {
                     match cmd {
                         Command::Apply(s) => {
                             settings = s;
-                            sources = match loaded_trace.as_ref() {
-                                Some(samples) => TraceSource::new(samples.clone())
-                                    .map(|source| vec![Box::new(source) as Box<dyn AccessSource>])
-                                    .unwrap_or_default(),
-                                None => factory(&settings),
-                            };
+                            sources.clear();
+                            enabled = false;
                             monitor = RamMonitor::new(
                                 settings.geometry(),
                                 settings.window,
@@ -160,6 +160,7 @@ impl Controller {
                             );
                             feed = armed_feed();
                             sources.clear();
+                            enabled = false;
                             source_name = "none (reset)".to_string();
                             last_trips = 0;
                             halted = false;
@@ -171,9 +172,8 @@ impl Controller {
                         } => {
                             loaded_trace = Some(trace_samples.clone());
                             source_name = name;
-                            sources = TraceSource::new(trace_samples)
-                                .map(|source| vec![Box::new(source) as Box<dyn AccessSource>])
-                                .unwrap_or_default();
+                            sources.clear();
+                            enabled = false;
                             monitor = RamMonitor::new(
                                 settings.geometry(),
                                 settings.window,
@@ -185,9 +185,35 @@ impl Controller {
                             samples = 0;
                             log.clear();
                         }
+                        Command::SetEnabled(on) => {
+                            if on {
+                                sources = match loaded_trace.as_ref() {
+                                    Some(samples) => TraceSource::new(samples.clone())
+                                        .map(|source| {
+                                            vec![Box::new(source) as Box<dyn AccessSource>]
+                                        })
+                                        .unwrap_or_default(),
+                                    None => factory(&settings),
+                                };
+                                enabled = !sources.is_empty();
+                                monitor = RamMonitor::new(
+                                    settings.geometry(),
+                                    settings.window,
+                                    settings.thresh,
+                                );
+                                feed = armed_feed();
+                                last_trips = 0;
+                                halted = false;
+                                samples = 0;
+                                log.clear();
+                            } else {
+                                sources.clear();
+                                enabled = false;
+                            }
+                        }
                     }
                 }
-                if !halted {
+                if enabled && !halted {
                     'sources: for source in sources.iter_mut() {
                         for _ in 0..512 {
                             let Some(sample) = source.next_sample() else {
@@ -227,6 +253,7 @@ impl Controller {
                     emitted: feed.frames() + monitor.secondary_frames(),
                     trips,
                     armed: feed.is_armed() && monitor.secondary_armed(),
+                    enabled,
                     halted,
                     source_name: source_name.clone(),
                     evidence: monitor.evidence.summary(),
@@ -259,6 +286,10 @@ impl Controller {
 
     pub fn load_trace(&self, samples: Vec<AccessSample>, name: String) {
         let _ = self.cmd.send(Command::LoadTrace { samples, name });
+    }
+
+    pub fn set_enabled(&self, enabled: bool) {
+        let _ = self.cmd.send(Command::SetEnabled(enabled));
     }
 }
 

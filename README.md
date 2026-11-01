@@ -12,8 +12,9 @@ recurrence, and bounded capacity compositions into independent immutable no-copy
 swarms. Runtime never receives a named attack family, expected answer, route,
 vote, or classifier.
 
-The first rupture halts consumption of the current simulation trace. Reload or
-Apply explicitly starts a new run; Reset clears the current source and receipt.
+The GUI defaults to **OFF**. Uploading stages a trace without running it. **ON**
+starts the staged trace from the beginning; **OFF** stops immediately. Apply and
+Reset return the simulation to OFF. The first rupture also halts consumption.
 
 > **Boundary:** this branch opens no CPU counter, PMU, perf source, or hardware
 > ring. A rupture is a simulated emergent numerical response—not a physical
@@ -83,9 +84,10 @@ cargo run -p ram-monitor-gui --release
 ```
 
 Drop a trace file anywhere on the window, or enter its absolute path and select
-**Load trace**. The GUI starts with no source. **Apply settings** rebuilds the
-simulation using the uploaded trace. **Reset** clears and re-arms the current
-simulation without capturing or reconnecting anything.
+**Load trace**. The GUI starts OFF with no source. Loading only stages the file.
+Use the large **TURN ON / TURN OFF** button to start from the beginning or stop
+immediately. **Apply settings** and **Reset** return the simulation to OFF without
+capturing or reconnecting anything.
 
 The console uses the Ordo palette and displays ARMED/TRIPPED status, uploaded
 source name, simulation counters, evidence provenance, and bounded numerical

@@ -1,5 +1,10 @@
 # Atom Rowhammer Defender
 
+Only the portable trace/replay GUI version is supported. The CPU/perf
+implementation was unauthorized and has been withdrawn. Source history starts
+with the portable version; obsolete CPU design and repair documents are removed.
+Run `python3 scripts/check_portable_only.py` to check this boundary.
+
 **by Lucerna Labs, a division of Lucerna Media**
 
 Private repo: [github.com/Lucerna-Labs/atom-rowhammer-defender](https://github.com/Lucerna-Labs/atom-rowhammer-defender)

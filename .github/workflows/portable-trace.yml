@@ -1,0 +1,28 @@
+name: Portable trace GUI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Reject withdrawn CPU collector
+        run: python3 scripts/check_portable_only.py
+      - name: Test portable workspace
+        run: cargo test --workspace --locked
+      - name: Verify CLI source choices
+        run: |
+          cargo run --locked -p ram-monitor -- --help > "$RUNNER_TEMP/ram-monitor-help.txt"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          help_text = (Path(os.environ["RUNNER_TEMP"]) / "ram-monitor-help.txt").read_text()
+          assert "possible values: replay, trace" in help_text
+          assert "--privileged" not in help_text
+          assert "perf" not in help_text.lower()
+          PY

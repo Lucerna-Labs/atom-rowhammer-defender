@@ -1,0 +1,14 @@
+[package]
+name = "imperium-nocopy-swarm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Quorum-swarm tripwire over four owned session-key copies; zeroizes only its own buffers on an observed distributed pattern; numerical receipts only, no verdicts"
+
+[dependencies]
+nocopy-sensor-engine = { path = "../../vendor/nocopy/nocopy-sensor-engine" }
+nocopy-swarm-engine = { path = "../../vendor/nocopy/nocopy-swarm-engine" }
+nocopy-swarm-principles = { path = "../../vendor/nocopy/nocopy-swarm-principles" }
+imperium-nocopy-vpn-observer = { path = "../imperium-nocopy-vpn-observer" }
+thiserror = { workspace = true }

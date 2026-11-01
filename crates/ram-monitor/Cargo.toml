@@ -1,0 +1,21 @@
+[package]
+name = "ram-monitor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Atom Rowhammer Defender: portable simulation trace -> thermal recurrence composition -> immutable swarm receipts"
+
+[dependencies]
+imperium-nocopy-swarm-live = { path = "../imperium-nocopy-swarm-live" }
+thiserror = { workspace = true }
+clap = { workspace = true, optional = true }
+
+[features]
+default = ["cli"]
+cli = ["dep:clap"]
+
+[[bin]]
+name = "ram-monitor"
+path = "src/main.rs"
+required-features = ["cli"]

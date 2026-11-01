@@ -1,0 +1,12 @@
+[package]
+name = "nocopy-swarm-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Swarm orchestrator over four sensor engines with quorum coupling; numerical receipts only, never a copy verdict"
+
+[dependencies]
+nocopy-sensor-engine = { path = "../nocopy-sensor-engine" }
+nocopy-sensor-principles = { path = "../nocopy-sensor-principles" }
+nocopy-swarm-principles = { path = "../nocopy-swarm-principles" }

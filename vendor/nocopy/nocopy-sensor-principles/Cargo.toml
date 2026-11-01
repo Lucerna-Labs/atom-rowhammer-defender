@@ -1,0 +1,9 @@
+[package]
+name = "nocopy-sensor-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Sensor axioms (principles) only; no orchestration, no verdicts"
+
+[dependencies]

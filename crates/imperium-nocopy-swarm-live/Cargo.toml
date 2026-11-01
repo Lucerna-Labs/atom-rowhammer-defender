@@ -1,0 +1,13 @@
+[package]
+name = "imperium-nocopy-swarm-live"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Live wiring layer: drives the no-copy quorum swarm from real wire-length observations (VpnObserver tap); observe-only, numerical receipts, no bus handle, no live-key access"
+
+[dependencies]
+imperium-nocopy-swarm = { path = "../imperium-nocopy-swarm" }
+imperium-nocopy-vpn-observer = { path = "../imperium-nocopy-vpn-observer" }
+nocopy-swarm-principles = { path = "../../vendor/nocopy/nocopy-swarm-principles" }
+thiserror = { workspace = true }

@@ -1,0 +1,15 @@
+[package]
+name = "ram-monitor-gui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Atom Rowhammer Defender operator console (Lucerna Labs, a division of Lucerna Media): live status, numerical trip receipts, operator-adjustable detector settings (apply/reset)"
+
+[dependencies]
+ram-monitor = { path = "../ram-monitor" }
+eframe = { workspace = true }
+
+[[bin]]
+name = "ram-monitor-gui"
+path = "src/main.rs"

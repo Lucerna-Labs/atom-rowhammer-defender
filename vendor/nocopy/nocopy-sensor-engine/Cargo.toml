@@ -1,0 +1,10 @@
+[package]
+name = "nocopy-sensor-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed-order observation-only orchestrator over the sensor principles; continuous field measurement, never a copy verdict"
+
+[dependencies]
+nocopy-sensor-principles = { path = "../nocopy-sensor-principles" }

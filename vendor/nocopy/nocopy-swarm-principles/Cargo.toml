@@ -1,0 +1,7 @@
+[package]
+name = "nocopy-swarm-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Quorum-swarm primitives: collective coupling and numerical receipts over four owned cells; no key bytes, no verdicts"

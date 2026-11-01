@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ram-monitor",
+    "crates/ram-monitor-gui",
+    "crates/imperium-nocopy-vpn-observer",
+    "crates/imperium-nocopy-swarm",
+    "crates/imperium-nocopy-swarm-live",
+    "vendor/nocopy/nocopy-generator-core",
+    "vendor/nocopy/nocopy-closure-orchestrator",
+    "vendor/nocopy/nocopy-linear-map-core",
+    "vendor/nocopy/nocopy-linear-map-orchestrator",
+    "vendor/nocopy/nocopy-sensor-principles",
+    "vendor/nocopy/nocopy-sensor-engine",
+    "vendor/nocopy/nocopy-swarm-principles",
+    "vendor/nocopy/nocopy-swarm-engine",
+]
+
+[workspace.package]
+edition = "2021"
+license = "PolyForm-Noncommercial-1.0.0"
+authors = ["Lucerna Labs, a division of Lucerna Media"]
+version = "0.1.0"
+
+[workspace.dependencies]
+thiserror = "2"
+libc = "0.2"
+clap = { version = "=4.6.1", features = ["derive"] }
+eframe = "=0.36.2"

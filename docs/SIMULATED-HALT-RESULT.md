@@ -29,3 +29,9 @@ Candidate hashes after halt integration:
 
 This is prevention only inside the uploaded/generated mathematical simulation.
 No physical memory action or CPU-ring source exists in this branch.
+
+The halt-enabled binaries were installed at `/opt/ram-monitor` with the exact
+candidate hashes above while the legacy service remained disabled and inactive.
+Installed hammer replay reports `halted=true` after six observations; installed
+scatter consumes all 256 and reports `halted=false`. The installed GUI passed its
+five-second native launch check.

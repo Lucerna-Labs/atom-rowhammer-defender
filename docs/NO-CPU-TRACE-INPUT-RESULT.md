@@ -35,6 +35,12 @@ Verification:
   `c285f25140791c6314d554bc842621b8a32e4dae53b5a151716123cb4755b583`;
 - legacy CPU-ring service is stopped and disabled (`inactive`, `MainPID=0`).
 
+The portable CLI/GUI binaries were installed to `/opt/ram-monitor` with those
+exact hashes while the legacy service remained disabled and inactive. Installed
+CLI help exposes only `replay` and `trace` sources. Installed hammer replay
+produced numerical rupture receipts; scatter replay remained at zero trips. The
+installed GUI stayed alive for a second five-second native launch check.
+
 Existing simulation effectiveness gates remain green. This makes the app
 portable and removes the unauthorized observation source; it does not convert
 simulation evidence into a physical Rowhammer claim.

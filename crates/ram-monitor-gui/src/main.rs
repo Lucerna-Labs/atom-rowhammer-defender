@@ -117,8 +117,13 @@ impl App {
                     .and_then(|value| value.to_str())
                     .unwrap_or("uploaded trace")
                     .to_string();
+                let was_enabled = self.controller.snapshot().enabled;
                 self.controller.load_trace(samples, name.clone());
-                self.upload_status = format!("Loaded {name}: {count} samples — OFF");
+                self.upload_status = if was_enabled {
+                    format!("Loaded {name}: {count} samples — running")
+                } else {
+                    format!("Loaded {name}: {count} samples — OFF")
+                };
                 self.trace_path = path.display().to_string();
             }
             Err(error) => self.upload_status = format!("Trace rejected: {error}"),

@@ -2,6 +2,11 @@
 
 The portable GUI now has a large explicit **TURN ON / TURN OFF** control.
 
+The first implementation incorrectly coupled ON to source availability, so ON
+with no loaded trace immediately returned to OFF. The corrected power state is
+independent of source state: ON stays ON while waiting, and loading a trace while
+ON starts it automatically.
+
 - normal startup is OFF;
 - loading or dropping a trace only stages it and leaves sample count at zero;
 - ON starts the staged trace from its beginning with fresh stack state;
@@ -12,13 +17,13 @@ The portable GUI now has a large explicit **TURN ON / TURN OFF** control.
 
 Controller gates verify staged-upload silence, ON execution, immediate OFF sample
 stability, restart behavior, reset behavior, and stricter-settings behavior.
-Full workspace: 79 passed, zero ignored. Release GUI remained alive for the
+Full workspace: 80 passed, zero ignored. Release GUI remained alive for the
 five-second launch check.
 
 Candidate hashes:
 
 - CLI `3c8ad94ae3d4ca97c2eedf089d2e439a3970a4547767f69227975843f583e347`;
-- GUI `9d5e7f717a64aa7c2d60940bc2d371f37c851d2a586dd0098b68fdadd0fb2f75`.
+- GUI `dc0b4406823504ce65091296ffd13d900b8119a958039a7d679fced9a3920436`.
 
 The obsolete CPU-ring systemd unit was backed up, removed from `/etc/systemd/system`,
 and daemon-reloaded. `systemctl status ram-monitor.service` now returns unit not

@@ -172,8 +172,13 @@ impl Controller {
                         } => {
                             loaded_trace = Some(trace_samples.clone());
                             source_name = name;
-                            sources.clear();
-                            enabled = false;
+                            sources = if enabled {
+                                TraceSource::new(trace_samples)
+                                    .map(|source| vec![Box::new(source) as Box<dyn AccessSource>])
+                                    .unwrap_or_default()
+                            } else {
+                                Vec::new()
+                            };
                             monitor = RamMonitor::new(
                                 settings.geometry(),
                                 settings.window,
@@ -195,7 +200,7 @@ impl Controller {
                                         .unwrap_or_default(),
                                     None => factory(&settings),
                                 };
-                                enabled = !sources.is_empty();
+                                enabled = true;
                                 monitor = RamMonitor::new(
                                     settings.geometry(),
                                     settings.window,

@@ -211,3 +211,33 @@ fn g5_off_stops_consumption_and_on_restarts_from_the_beginning() {
     );
     assert!(restarted.samples <= 512, "ON restarts from the beginning");
 }
+
+#[test]
+fn g6_on_stays_on_without_a_trace_and_load_while_on_starts() {
+    let controller = Controller::spawn(|_| Vec::new());
+    controller.set_enabled(true);
+    let waiting = wait_for(&controller, |snapshot| snapshot.enabled, 10);
+    assert!(waiting.enabled);
+    assert_eq!(waiting.samples, 0);
+
+    let samples = (0..130_u64)
+        .map(|index| ram_monitor::AccessSample {
+            addr: (3 << 6) + index % 64,
+            time_ns: Some(index * 50),
+            address_kind: ram_monitor::AddressKind::Synthetic,
+            ..ram_monitor::AccessSample::default()
+        })
+        .collect();
+    controller.load_trace(samples, "load-while-on.trace".to_string());
+    let running = wait_for(
+        &controller,
+        |snapshot| {
+            snapshot.enabled
+                && snapshot.source_name == "load-while-on.trace"
+                && snapshot.samples > 0
+        },
+        10,
+    );
+    assert!(running.enabled);
+    assert!(running.samples > 0);
+}

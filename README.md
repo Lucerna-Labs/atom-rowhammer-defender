@@ -27,9 +27,19 @@ Reset return the simulation to OFF. The first rupture also halts consumption.
 
 ## License
 
-Free for non-commercial use under the [PolyForm Noncommercial License
-1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/). Commercial
-use requires a separate license from Lucerna Labs.
+Atom Rowhammer Defender is free for uses permitted by the
+[PolyForm Noncommercial License 1.0.0](LICENSE), including noncommercial use,
+personal uses without an anticipated commercial application, and use by the
+noncommercial organizations described in that license. You may use, modify,
+and share the software subject to its terms and notice requirements.
+
+**Commercial use outside those permissions requires a separate paid written
+license agreement with Lucerna Labs, a division of Lucerna Media, before use.**
+See [commercial licensing](COMMERCIAL.md) to request terms and pricing.
+
+Separately licensed third-party materials and dependencies retain their own
+terms. This licensing policy does not revoke rights already granted for earlier
+copies under their applicable licenses.
 
 ## Portable trace format
 

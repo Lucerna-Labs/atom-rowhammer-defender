@@ -1,0 +1,13 @@
+[package]
+name = "atom-block-library"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+# CONTENT ONLY, and structurally so: this crate has ZERO dependencies — it
+# cannot compute, cannot reach the engines, and carries no procedures.
+[dependencies]
+
+[lints]
+workspace = true

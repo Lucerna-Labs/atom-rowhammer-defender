@@ -1,0 +1,7 @@
+Atom Defender local distribution
+The application is covered by the repository's LICENSE and COMMERCIAL.md.
+The standalone keyboard.bpf.c Linux kernel program is GPL-2.0-only.
+Its corresponding source is included here. On Debian systems the GPL version
+2 text is available at /usr/share/common-licenses/GPL-2.
+Network Lightcone source provenance and the Imperium repository license are
+included in PROVENANCE.md and IMPERIUM-LICENSE.

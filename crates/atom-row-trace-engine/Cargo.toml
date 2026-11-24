@@ -1,0 +1,10 @@
+[package]
+name = "atom-row-trace-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Independent timing and heat observations over a portable trace"
+
+[dependencies]
+atom-row-trace-principles = { path = "../atom-row-trace-principles" }

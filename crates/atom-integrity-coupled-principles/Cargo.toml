@@ -1,0 +1,9 @@
+[package]
+name = "atom-integrity-coupled-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Intrinsic cross-coupled occupation, binding, and mechanical states"
+
+[dependencies]

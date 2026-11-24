@@ -1,0 +1,10 @@
+[package]
+name = "atom-rhythm-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed timing-coherence composition over intrinsic phase and material states"
+
+[dependencies]
+atom-rhythm-principles = { path = "../atom-rhythm-principles" }

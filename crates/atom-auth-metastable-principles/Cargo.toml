@@ -1,0 +1,9 @@
+[package]
+name = "atom-auth-metastable-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Intrinsic reversible bond and viscoelastic auth observation states"
+
+[dependencies]

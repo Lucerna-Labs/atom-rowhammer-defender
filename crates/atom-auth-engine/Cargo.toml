@@ -1,0 +1,10 @@
+[package]
+name = "atom-auth-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed compositions over intrinsic auth-stream states"
+
+[dependencies]
+atom-auth-principles = { path = "../atom-auth-principles" }

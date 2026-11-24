@@ -7,8 +7,19 @@ authors.workspace = true
 description = "Atom Rowhammer Defender: portable simulation trace -> thermal recurrence composition -> immutable swarm receipts"
 
 [dependencies]
+atom-row-trace-engine = { path = "../atom-row-trace-engine" }
+axiom-engine = { path = "../../vendor/integrity-e013/crates/axiom-engine" }
+atom-rhythm-four-engine = { path = "../atom-rhythm-four-engine" }
+atom-pressure-engine = { path = "../atom-pressure-engine" }
+atom-pressure-hop-engine = { path = "../atom-pressure-hop-engine" }
+atom-psi-coupling-engine = { path = "../atom-psi-coupling-engine" }
+atom-row-phase-engine = { path = "../atom-row-phase-engine" }
+ram-monitor-cognitive = { path = "../ram-monitor-cognitive" }
+ram-monitor-file-events = { path = "../ram-monitor-file-events" }
+ram-monitor-bus = { path = "../ram-monitor-bus" }
 imperium-nocopy-swarm-live = { path = "../imperium-nocopy-swarm-live" }
 thiserror = { workspace = true }
+libc = { workspace = true }
 clap = { workspace = true, optional = true }
 
 [features]

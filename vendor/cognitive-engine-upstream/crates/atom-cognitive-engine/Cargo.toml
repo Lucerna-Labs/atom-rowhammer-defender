@@ -1,0 +1,18 @@
+[package]
+name = "atom-cognitive-engine"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+atom-cognitive-core = { path = "../atom-cognitive-core" }
+
+# The block library is content, visible only to consumers (tests, cli). The
+# engine must NOT depend on it at build time — content-independence: the
+# engines cannot see any particular library (BUILD-17 boundary).
+[dev-dependencies]
+atom-block-library = { path = "../atom-block-library" }
+
+[lints]
+workspace = true

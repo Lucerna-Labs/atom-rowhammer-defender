@@ -1,0 +1,10 @@
+[package]
+name = "atom-psi-coupling-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed correlated four-state material composition"
+
+[dependencies]
+atom-psi-coupling-principles = { path = "../atom-psi-coupling-principles" }

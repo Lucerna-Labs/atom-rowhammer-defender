@@ -1,0 +1,10 @@
+[package]
+name = "atom-row-quorum-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed four-mode fingerprint phase quorum composition"
+
+[dependencies]
+atom-row-quorum-principles = { path = "../atom-row-quorum-principles" }

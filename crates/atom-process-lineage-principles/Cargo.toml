@@ -1,0 +1,9 @@
+[package]
+name = "atom-process-lineage-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Normalized phase, reproductive sites, bonds and dissipation"
+
+[dependencies]

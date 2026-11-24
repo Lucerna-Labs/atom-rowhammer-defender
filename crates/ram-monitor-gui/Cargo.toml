@@ -7,7 +7,11 @@ authors.workspace = true
 description = "Atom Rowhammer Defender operator console (Lucerna Labs, a division of Lucerna Media): live status, numerical trip receipts, operator-adjustable detector settings (apply/reset)"
 
 [dependencies]
+atom-network-lightcone = { path = "../atom-network-lightcone" }
+serde_json = "1"
+libc.workspace = true
 ram-monitor = { path = "../ram-monitor" }
+ram-monitor-bus = { path = "../ram-monitor-bus" }
 eframe = { workspace = true }
 
 [[bin]]

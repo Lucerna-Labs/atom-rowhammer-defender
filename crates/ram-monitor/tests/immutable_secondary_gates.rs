@@ -137,3 +137,24 @@ fn sketch_capacity_edge_ruptures_and_unique_control_stays_intact() {
     assert!(run_timed((0..131_300).map(|index| index % 131_072), 10).is_some());
     assert_eq!(run_timed(0..131_300, 10), None);
 }
+
+/// Pins the shipped detection band at its actual boundary. The thermal model is
+/// danger at 128 units with a 500,000 ns decay, so 128 units require a mean
+/// spacing of at most 3,921.6 ns: a 3,921 ns recurrence ruptures (slowly), and
+/// 4,000 ns never does. The documented 50,000 ns horizon does not describe this
+/// crate; see the correction in `docs/ADVERSARIAL-TIMED-RESULT.md`.
+#[test]
+fn shipped_band_constant_recurrence() {
+    assert!(run_timed((0..2_000).map(|_| 7), 3_921).is_some());
+    assert_eq!(run_timed((0..4_096).map(|_| 7), 4_000), None);
+}
+
+/// Known limitation, pinned deliberately. A balanced scan over 4,096 distinct
+/// lines at 50 ns spacing recurs per line only every 204,800 ns, which is far
+/// too slow to be DRAM hammering, yet the repeat-density gate ruptures it at
+/// the same "first repeat + ~129 samples" position as a genuine hammer. If the
+/// gate is ever fixed, flip this assertion; do not delete the case.
+#[test]
+fn fast_balanced_scan_ruptures_known_limitation() {
+    assert_eq!(run_timed((0..8_192).map(|i| i % 4_096), 50), Some(4_225));
+}

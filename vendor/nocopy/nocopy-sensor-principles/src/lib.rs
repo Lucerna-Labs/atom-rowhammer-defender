@@ -49,7 +49,7 @@ pub enum Error {
     InvalidKey,
     InvalidEnergy,
     NonFiniteState,
-    QuantumNorm,
+    NormDrift,
     DiffusionConservation,
     OutOfBounds,
 }
@@ -137,20 +137,20 @@ struct Memory {
 #[derive(Clone, Copy, Debug)]
 pub struct Measurements {
     pub reaction: f64,
-    pub quantum_norm_error: f64,
+    pub norm_error: f64,
     pub diffusion_mass_error: f64,
     pub information_drive: f64,
     pub chemical_flux: f64,
     pub field_energy: f64,
-    pub amplitude_weight: f64,
+    pub mode_weight: f64,
     pub inventory_gap: f64,
 }
 
 /// The state fields are coupled by shared drive and spatial activity. No field
 /// identifies whether an observation was a copy, clone, or benign transfer.
 pub struct Field {
-    amplitude: [f64; 2],
-    born_weight: f64,
+    modes: [f64; 2],
+    mode_weight: f64,
     memory: [Option<Memory>; 4],
     memory_cursor: usize,
     information_drive: f64,
@@ -179,8 +179,8 @@ impl Field {
     pub fn new(seed: u64) -> Self {
         let unit = |bits: u64| ((bits >> 11) as f64 + 0.5) / ((1_u64 << 53) as f64);
         Self {
-            amplitude: [0.8, 0.6],
-            born_weight: 0.64,
+            modes: [0.8, 0.6],
+            mode_weight: 0.64,
             memory: [None; 4],
             memory_cursor: 0,
             information_drive: 0.0,
@@ -223,29 +223,30 @@ impl Field {
         if o.quantity.is_finite() && (0.0..=1.0).contains(&o.quantity) { Ok(()) } else { Err(Error::InvalidObservation) }
     }
 
-    /// A two-mode orthogonal rotation: the Born weight feeds later classical
-    /// dynamics. This is calculated on a classical CPU, not physical quantum
-    /// measurement or randomness.
-    pub fn quantum_base(&mut self, observation: Observation) -> Result<(), Error> {
+    /// A classical two-mode oscillator: a normalized real 2-vector is rotated
+    /// by a fingerprint-derived angle, and its first squared component weights
+    /// later deterministic dynamics. It is ordinary real-valued arithmetic,
+    /// with no measurement randomness.
+    pub fn mode_base(&mut self, observation: Observation) -> Result<(), Error> {
         Self::validate_observation(observation)?;
         let phase = (observation.fingerprint as u16 as f64 / 65_535.0) * PI / 4.0;
         let angle = 0.13 + phase + (observation.tick % 7) as f64 * 0.01;
         let (sin, cos) = angle.sin_cos();
-        let [a, b] = self.amplitude;
-        self.amplitude = [cos * a - sin * b, sin * a + cos * b];
-        self.born_weight = self.amplitude[0] * self.amplitude[0];
+        let [a, b] = self.modes;
+        self.modes = [cos * a - sin * b, sin * a + cos * b];
+        self.mode_weight = self.modes[0] * self.modes[0];
         if self.thermal > 0.0 {
             let p0 = 1.0 / (1.0 + (-1.0 / self.thermal).exp());
-            let mixed = 0.9 * self.born_weight + 0.1 * p0;
-            self.amplitude = [mixed.sqrt(), (1.0 - mixed).sqrt()];
-            self.born_weight = mixed;
+            let mixed = 0.9 * self.mode_weight + 0.1 * p0;
+            self.modes = [mixed.sqrt(), (1.0 - mixed).sqrt()];
+            self.mode_weight = mixed;
         }
         self.check()
     }
 
-    /// Classical replacement control for the quantum-derived base.
+    /// Neutral control for the oscillator base.
     pub fn neutral_base(&mut self, o: Observation) -> Result<(), Error> {
-        Self::validate_observation(o)?; self.born_weight = 0.5; self.check()
+        Self::validate_observation(o)?; self.mode_weight = 0.5; self.check()
     }
 
     /// Dimensionless software temperature on the two-mode base; 0.0 disables.
@@ -305,7 +306,7 @@ impl Field {
                 self.last_similarity = similarity;
                 self.information_drive += pulse;
                 let weight = if self.hill { similarity * similarity } else { 1.0 };
-                self.drive += pulse * (0.25 + self.born_weight) * weight;
+                self.drive += pulse * (0.25 + self.mode_weight) * weight;
             }
         }
     }
@@ -420,12 +421,12 @@ impl Field {
         }
         Ok(Measurements {
             reaction,
-            quantum_norm_error: self.quantum_norm_error(),
+            norm_error: self.norm_error(),
             diffusion_mass_error: self.diffusion_error,
             information_drive: self.information_drive,
             chemical_flux: self.chemical_flux,
             field_energy,
-            amplitude_weight: self.born_weight,
+            mode_weight: self.mode_weight,
             inventory_gap: self.recipient_inventory - self.donor_inventory,
         })
     }
@@ -443,11 +444,11 @@ impl Field {
         self.check()
     }
 
-    fn quantum_norm_error(&self) -> f64 { (self.amplitude[0] * self.amplitude[0] + self.amplitude[1] * self.amplitude[1] - 1.0).abs() }
+    fn norm_error(&self) -> f64 { (self.modes[0] * self.modes[0] + self.modes[1] * self.modes[1] - 1.0).abs() }
 
     fn check(&self) -> Result<(), Error> {
         let scalars = [
-            self.born_weight,
+            self.mode_weight,
             self.information_drive,
             self.last_similarity,
             self.last_pulse,
@@ -472,8 +473,8 @@ impl Field {
         {
             return Err(Error::NonFiniteState);
         }
-        if self.quantum_norm_error() > 1e-10 {
-            return Err(Error::QuantumNorm);
+        if self.norm_error() > 1e-10 {
+            return Err(Error::NormDrift);
         }
         if self.diffusion_error > 1e-10 {
             return Err(Error::DiffusionConservation);

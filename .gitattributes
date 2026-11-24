@@ -1,0 +1,4 @@
+# Preserve the pinned Spiderweb source bytes, including upstream CRLF endings.
+vendor/spiderweb-bus-upstream/** -text
+# The native Network Lightcone files are checked against upstream byte hashes.
+vendor/network-lightcone-exact/crates/** -text

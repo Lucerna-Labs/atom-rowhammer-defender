@@ -1,0 +1,10 @@
+[package]
+name = "atom-rhythm-four-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed four-mode timing-field composition over intrinsic states"
+
+[dependencies]
+atom-rhythm-four-principles = { path = "../atom-rhythm-four-principles" }

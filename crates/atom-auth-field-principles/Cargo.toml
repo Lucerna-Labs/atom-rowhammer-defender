@@ -1,0 +1,9 @@
+[package]
+name = "atom-auth-field-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Intrinsic eight-site field mathematics for auth observation research"
+
+[dependencies]

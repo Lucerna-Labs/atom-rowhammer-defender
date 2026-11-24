@@ -419,6 +419,243 @@ dependencies = [
 ]
 
 [[package]]
+name = "atom-auth-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-auth-principles",
+]
+
+[[package]]
+name = "atom-auth-field-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-auth-field-principles",
+]
+
+[[package]]
+name = "atom-auth-field-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-auth-metastable-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-auth-metastable-principles",
+]
+
+[[package]]
+name = "atom-auth-metastable-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-auth-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-cognitive-core"
+version = "0.1.0"
+
+[[package]]
+name = "atom-cognitive-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-cognitive-core",
+]
+
+[[package]]
+name = "atom-credential-guard"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "nocopy-sensor-engine",
+]
+
+[[package]]
+name = "atom-exact-row-site-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-exact-row-site-principles",
+]
+
+[[package]]
+name = "atom-exact-row-site-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-integrity-coupled-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-integrity-coupled-principles",
+]
+
+[[package]]
+name = "atom-integrity-coupled-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-integrity-material-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-integrity-material-principles",
+]
+
+[[package]]
+name = "atom-integrity-material-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-keyboard-guard"
+version = "0.1.0"
+dependencies = [
+ "libc",
+]
+
+[[package]]
+name = "atom-network-lightcone"
+version = "0.1.0"
+dependencies = [
+ "imperium-net-lightcone",
+ "imperium-net-pathworld",
+ "imperium-protocol",
+ "libc",
+ "serde",
+ "serde_json",
+ "spiderweb",
+]
+
+[[package]]
+name = "atom-port-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-port-principles",
+]
+
+[[package]]
+name = "atom-port-occupation-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-port-occupation-principles",
+]
+
+[[package]]
+name = "atom-port-occupation-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-port-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-pressure-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-pressure-principles",
+]
+
+[[package]]
+name = "atom-pressure-hop-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-pressure-hop-principles",
+]
+
+[[package]]
+name = "atom-pressure-hop-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-pressure-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-process-lineage-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-process-lineage-principles",
+]
+
+[[package]]
+name = "atom-process-lineage-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-psi-coupling-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-psi-coupling-principles",
+]
+
+[[package]]
+name = "atom-psi-coupling-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-recoil-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-recoil-principles",
+]
+
+[[package]]
+name = "atom-recoil-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-rhythm-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-rhythm-principles",
+]
+
+[[package]]
+name = "atom-rhythm-four-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-rhythm-four-principles",
+]
+
+[[package]]
+name = "atom-rhythm-four-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-rhythm-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-row-phase-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-row-phase-principles",
+]
+
+[[package]]
+name = "atom-row-phase-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-row-quorum-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-row-quorum-principles",
+]
+
+[[package]]
+name = "atom-row-quorum-principles"
+version = "0.1.0"
+
+[[package]]
+name = "atom-row-trace-engine"
+version = "0.1.0"
+dependencies = [
+ "atom-row-trace-principles",
+]
+
+[[package]]
+name = "atom-row-trace-principles"
+version = "0.1.0"
+
+[[package]]
 name = "atomic-waker"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -468,6 +705,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
+name = "axiom-engine"
+version = "0.1.0"
+dependencies = [
+ "axiom-primitives",
+]
+
+[[package]]
+name = "axiom-primitives"
+version = "0.1.0"
+
+[[package]]
 name = "bit-set"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -493,6 +741,15 @@ name = "bitflags"
 version = "2.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06"
+
+[[package]]
+name = "block-buffer"
+version = "0.10.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71"
+dependencies = [
+ "generic-array",
+]
 
 [[package]]
 name = "block2"
@@ -647,6 +904,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "chrono"
+version = "0.4.45"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1aa79e62e7697b8e29b513a68abacf485adcd1fe8284a4316c5ae868e6633327"
+dependencies = [
+ "iana-time-zone",
+ "js-sys",
+ "num-traits",
+ "serde",
+ "wasm-bindgen",
+ "windows-link",
+]
+
+[[package]]
 name = "clap"
 version = "4.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -781,6 +1052,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cpufeatures"
+version = "0.2.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "crc32fast"
 version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -802,10 +1082,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 
 [[package]]
+name = "crypto-common"
+version = "0.1.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78c8292055d1c1df0cce5d180393dc8cce0abec0a7102adb6c7b1eef6016d60a"
+dependencies = [
+ "generic-array",
+ "typenum",
+]
+
+[[package]]
 name = "cursor-icon"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f27ae1dd37df86211c42e150270f82743308803d90a6f6e6651cd730d5e1732f"
+
+[[package]]
+name = "digest"
+version = "0.10.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292"
+dependencies = [
+ "block-buffer",
+ "crypto-common",
+]
 
 [[package]]
 name = "dispatch"
@@ -1260,6 +1560,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "generic-array"
+version = "0.14.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
+dependencies = [
+ "typenum",
+ "version_check",
+]
+
+[[package]]
 name = "gethostname"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1483,6 +1793,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
+name = "iana-time-zone"
+version = "0.1.65"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e31bc9ad994ba00e440a8aa5c9ef0ec67d5cb5e5cb0cc7f8b744a35b389cc470"
+dependencies = [
+ "android_system_properties",
+ "core-foundation-sys",
+ "iana-time-zone-haiku",
+ "js-sys",
+ "log",
+ "wasm-bindgen",
+ "windows-core",
+]
+
+[[package]]
+name = "iana-time-zone-haiku"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "icu_collections"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1601,6 +1935,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "imperium-net-lightcone"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "imperium-net-observer",
+ "imperium-net-pathworld",
+ "imperium-protocol",
+ "parking_lot",
+ "path-frame",
+ "path-sense",
+ "sha2",
+ "spiderweb",
+ "thiserror 2.0.21",
+ "tracing",
+]
+
+[[package]]
+name = "imperium-net-observer"
+version = "0.1.0"
+
+[[package]]
+name = "imperium-net-pathworld"
+version = "0.1.0"
+dependencies = [
+ "path-admit",
+ "path-pack",
+ "path-sense",
+ "path-world",
+]
+
+[[package]]
 name = "imperium-nocopy-swarm"
 version = "0.1.0"
 dependencies = [
@@ -1633,6 +1998,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "imperium-protocol"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "chrono",
+ "serde",
+ "serde_json",
+ "spiderweb",
+ "uuid",
+]
+
+[[package]]
 name = "indexmap"
 version = "2.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1656,6 +2033,12 @@ checksum = "8b4baf93f58d4425749ca49a51c50ebab072c5df6994d08fed93541c331481dc"
 dependencies = [
  "either",
 ]
+
+[[package]]
+name = "itoa"
+version = "1.0.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3bd1574e617a9a6c1f8f8181bd7e841e1f20e4277607ef28945765188d6284d4"
 
 [[package]]
 name = "jni"
@@ -2440,6 +2823,39 @@ dependencies = [
 ]
 
 [[package]]
+name = "path-admit"
+version = "0.1.0"
+dependencies = [
+ "path-sense",
+ "path-world",
+]
+
+[[package]]
+name = "path-frame"
+version = "0.1.0"
+dependencies = [
+ "path-sense",
+]
+
+[[package]]
+name = "path-pack"
+version = "0.1.0"
+dependencies = [
+ "path-sense",
+]
+
+[[package]]
+name = "path-sense"
+version = "0.1.0"
+
+[[package]]
+name = "path-world"
+version = "0.1.0"
+dependencies = [
+ "path-sense",
+]
+
+[[package]]
 name = "peniko"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2692,17 +3108,53 @@ checksum = "f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf"
 name = "ram-monitor"
 version = "0.1.0"
 dependencies = [
+ "atom-pressure-engine",
+ "atom-pressure-hop-engine",
+ "atom-psi-coupling-engine",
+ "atom-rhythm-four-engine",
+ "atom-row-phase-engine",
+ "atom-row-trace-engine",
+ "axiom-engine",
  "clap",
  "imperium-nocopy-swarm-live",
+ "libc",
+ "ram-monitor-bus",
+ "ram-monitor-cognitive",
+ "ram-monitor-file-events",
  "thiserror 2.0.21",
+]
+
+[[package]]
+name = "ram-monitor-bus"
+version = "0.1.0"
+dependencies = [
+ "spiderweb",
+]
+
+[[package]]
+name = "ram-monitor-cognitive"
+version = "0.1.0"
+dependencies = [
+ "atom-cognitive-engine",
+]
+
+[[package]]
+name = "ram-monitor-file-events"
+version = "0.1.0"
+dependencies = [
+ "libc",
 ]
 
 [[package]]
 name = "ram-monitor-gui"
 version = "0.1.0"
 dependencies = [
+ "atom-network-lightcone",
  "eframe",
+ "libc",
  "ram-monitor",
+ "ram-monitor-bus",
+ "serde_json",
 ]
 
 [[package]]
@@ -2903,6 +3355,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_json"
+version = "1.0.154"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e7e9cc8b1b85264074fbcc02a88680c4096b1e47df8f739dceb03bf482f04bd6"
+dependencies = [
+ "itoa",
+ "memchr",
+ "serde",
+ "serde_core",
+ "zmij",
+]
+
+[[package]]
 name = "serde_repr"
 version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2911,6 +3376,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 3.0.9",
+]
+
+[[package]]
+name = "sha2"
+version = "0.10.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a7507d819769d01a365ab707794a4084392c824f54a7a6a7862f8c3d0892b283"
+dependencies = [
+ "cfg-if",
+ "cpufeatures",
+ "digest",
 ]
 
 [[package]]
@@ -3059,6 +3535,10 @@ checksum = "dd538fb6910ac1099850255cf94a94df6551fbdd602454387d0adb2d1ca6dead"
 dependencies = [
  "serde",
 ]
+
+[[package]]
+name = "spiderweb"
+version = "0.1.0"
 
 [[package]]
 name = "spirv"
@@ -3324,6 +3804,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "typenum"
+version = "1.20.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20"
+
+[[package]]
 name = "uds_windows"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3397,6 +3883,7 @@ version = "1.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a0e2d11620c50695fe12bbbfde96b3477fe606e7284c22d505c12ce51214514"
 dependencies = [
+ "getrandom 0.4.3",
  "js-sys",
  "serde_core",
  "wasm-bindgen",
@@ -4424,6 +4911,12 @@ name = "zlib-rs"
 version = "0.6.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b268e58e7c693d7c271f93ffc4ba3b380412554231c85bf61ca7af91042a4112"
+
+[[package]]
+name = "zmij"
+version = "1.0.23"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
 
 [[package]]
 name = "zune-core"

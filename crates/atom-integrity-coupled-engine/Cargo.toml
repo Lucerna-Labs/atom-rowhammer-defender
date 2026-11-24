@@ -1,0 +1,10 @@
+[package]
+name = "atom-integrity-coupled-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed sparse-observation composition over coupled intrinsic states"
+
+[dependencies]
+atom-integrity-coupled-principles = { path = "../atom-integrity-coupled-principles" }

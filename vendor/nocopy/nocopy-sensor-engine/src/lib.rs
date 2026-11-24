@@ -227,7 +227,7 @@ impl Engine {
         if self.arm == Arm::NoBase {
             self.field.neutral_base(observation)?;
         } else {
-            self.field.quantum_base(observation)?;
+            self.field.mode_base(observation)?;
         }
         let stages: &[Stage] = match self.order {
             Order::A => &ORDER_A,

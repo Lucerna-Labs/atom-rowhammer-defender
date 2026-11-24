@@ -14,6 +14,7 @@ use std::time::Duration;
 use imperium_nocopy_swarm_live::{Order, SwarmLiveConfig, SwarmLiveFeed};
 
 use crate::{AccessSample, AccessSource, RamMonitor, RowGeometry, TraceSource};
+use crate::row_models::{ModelReport, TraceModels};
 
 /// Operator-adjustable settings. Applied only via an explicit command.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -60,6 +61,8 @@ pub struct Snapshot {
     pub source_name: String,
     pub evidence: String,
     pub last_receipt: Option<String>,
+    pub model_report: Option<Result<ModelReport, &'static str>>,
+    pub uploaded_samples: usize,
     pub log: Vec<String>,
 }
 
@@ -106,6 +109,7 @@ fn armed_feed() -> SwarmLiveFeed {
 pub struct Controller {
     shared: Arc<Mutex<Snapshot>>,
     cmd: Sender<Command>,
+    alerts: Mutex<std::sync::mpsc::Receiver<String>>,
 }
 
 impl Controller {
@@ -116,6 +120,7 @@ impl Controller {
         F: Fn(&Settings) -> Vec<Box<dyn AccessSource>> + Send + 'static,
     {
         let (tx, rx) = channel::<Command>();
+        let (alert_tx, alerts) = channel();
         let shared = Arc::new(Mutex::new(Snapshot::default()));
         let shared2 = Arc::clone(&shared);
         std::thread::spawn(move || {
@@ -123,6 +128,7 @@ impl Controller {
             let mut sources = factory(&settings);
             let mut enabled = !sources.is_empty();
             let mut loaded_trace: Option<Vec<AccessSample>> = None;
+            let mut models: Option<Result<TraceModels, &'static str>> = None;
             let mut source_name = if sources.is_empty() {
                 "none".to_string()
             } else {
@@ -139,6 +145,7 @@ impl Controller {
                 while let Ok(cmd) = rx.try_recv() {
                     match cmd {
                         Command::Apply(s) => {
+                            models = None;
                             settings = s;
                             sources.clear();
                             enabled = false;
@@ -153,6 +160,7 @@ impl Controller {
                             log.clear();
                         }
                         Command::Reset => {
+                            models = None;
                             monitor = RamMonitor::new(
                                 settings.geometry(),
                                 settings.window,
@@ -170,6 +178,7 @@ impl Controller {
                             samples: trace_samples,
                             name,
                         } => {
+                            models = None;
                             loaded_trace = Some(trace_samples.clone());
                             source_name = name;
                             sources = if enabled {
@@ -192,6 +201,7 @@ impl Controller {
                         }
                         Command::SetEnabled(on) => {
                             if on {
+                                models = None;
                                 sources = match loaded_trace.as_ref() {
                                     Some(samples) => TraceSource::new(samples.clone())
                                         .map(|source| {
@@ -232,6 +242,16 @@ impl Controller {
                         }
                     }
                 }
+                if let Some(trace) = loaded_trace.as_deref().filter(|_| enabled) {
+                    let run = models.get_or_insert_with(|| TraceModels::new(settings.geometry()));
+                    if let Ok(model) = run {
+                        let start = model.report().reading.samples as usize;
+                        let end = (start + 8192).min(trace.len());
+                        if let Err(error) = model.extend(&trace[start..end]) {
+                            *run = Err(error);
+                        }
+                    }
+                }
                 let stats = feed.stats();
                 let trips = stats.trips + monitor.secondary_trips();
                 if trips > last_trips {
@@ -245,6 +265,7 @@ impl Controller {
                             "trip_reads={} warm={} ruptured={} heats={:?}",
                             r.trip_reads, r.warm, r.ruptured, r.heats
                         );
+                        let _ = alert_tx.send(format!("Trace {source_name} stopped at sample {samples} · {line}"));
                         log.push(line.clone());
                         if log.len() > LOG_CAP {
                             log.remove(0);
@@ -263,6 +284,8 @@ impl Controller {
                     source_name: source_name.clone(),
                     evidence: monitor.evidence.summary(),
                     last_receipt: log.last().cloned(),
+                    model_report: models.as_ref().map(|run| run.as_ref().map(TraceModels::report).map_err(|e| *e)),
+                    uploaded_samples: loaded_trace.as_ref().map_or(0, Vec::len),
                     log: log.clone(),
                 };
                 if let Ok(mut guard) = shared2.lock() {
@@ -271,7 +294,11 @@ impl Controller {
                 std::thread::sleep(Duration::from_millis(50));
             }
         });
-        Self { shared, cmd: tx }
+        Self { shared, cmd: tx, alerts: Mutex::new(alerts) }
+    }
+
+    pub fn take_alerts(&self) -> Vec<String> {
+        self.alerts.lock().unwrap_or_else(|poison| poison.into_inner()).try_iter().collect()
     }
 
     /// Point-in-time snapshot of the monitor.

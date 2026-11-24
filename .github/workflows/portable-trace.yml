@@ -11,7 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
-      - name: Reject withdrawn CPU collector
+      - name: Install Linux monitor libraries
+        run: sudo apt-get update && sudo apt-get install -y libbpf-dev libpcap-dev
+      - name: Reject the withdrawn live collector
         run: python3 scripts/check_portable_only.py
       - name: Test portable workspace
         run: cargo test --workspace --locked

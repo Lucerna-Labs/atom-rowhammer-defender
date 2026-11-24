@@ -1,0 +1,10 @@
+[package]
+name = "ram-monitor-cognitive"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Bounded cognitive selection of verified file-restoration methods"
+
+[dependencies]
+atom-cognitive-engine = { path = "../../vendor/cognitive-engine-upstream/crates/atom-cognitive-engine" }

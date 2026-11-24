@@ -1,0 +1,10 @@
+[package]
+name = "atom-integrity-material-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed stack over statistical occupation and metastable material state"
+
+[dependencies]
+atom-integrity-material-principles = { path = "../atom-integrity-material-principles" }

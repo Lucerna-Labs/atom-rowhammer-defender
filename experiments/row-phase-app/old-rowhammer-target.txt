@@ -1,0 +1,1 @@
+samples=4096 frames=10 trips=0 halted=false armed=true evidence=unknown=0 synthetic=4096 instruction=0 virtual_data=0 physical_data=0 timestamped=4096 activation_evidence=unavailable

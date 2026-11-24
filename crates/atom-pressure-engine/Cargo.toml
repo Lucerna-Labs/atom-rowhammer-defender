@@ -1,0 +1,10 @@
+[package]
+name = "atom-pressure-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed two-order pressure-history material composition"
+
+[dependencies]
+atom-pressure-principles = { path = "../atom-pressure-principles" }

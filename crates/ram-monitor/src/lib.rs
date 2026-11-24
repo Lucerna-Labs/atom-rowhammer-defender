@@ -3,7 +3,9 @@
 //! Pipeline: uploaded or generated mathematical observations -> row-region
 //! fingerprint -> thermal recurrence composition -> immutable swarms.
 //!
-//! Boundary: simulation-only. The app opens no CPU, PMU, or hardware ring. It
+//! Rowhammer boundary: simulation-only. A separate operator-chosen file watch
+//! reads one live local file without modifying it. The app opens no live
+//! hardware counter, performance source, or hardware ring. It
 //! never touches live keys, and every swarm holds owned copies only. The stack
 //! does not identify or classify named attacks. Numerical rupture receipts are
 //! simulated evidence, not physical prevention.
@@ -16,7 +18,20 @@ use sketch::SketchThermalChannel;
 use thiserror::Error;
 
 pub mod controller;
+pub mod bounded_file;
+pub mod file_object;
+pub use ram_monitor_file_events as file_events;
+pub mod auto_restore;
+pub mod integrity;
+pub mod integrity_watch;
+pub mod keyboard;
+pub mod pressure;
+pub mod pressure_hop;
+pub mod psi_coupling;
 pub mod replay;
+pub mod rhythm;
+pub mod row_phase;
+pub mod row_models;
 mod sketch;
 pub mod trace;
 
@@ -91,6 +106,19 @@ impl Default for RowGeometry {
 }
 
 impl RowGeometry {
+    fn identity(&self, sample: AccessSample) -> RegionIdentity {
+        let (address, kind, pid) = if sample.phys != 0 {
+            (sample.phys, AddressKind::PhysicalData, 0)
+        } else {
+            (sample.addr, sample.address_kind, sample.pid)
+        };
+        RegionIdentity {
+            kind,
+            pid,
+            block: self.fingerprint(address),
+        }
+    }
+
     /// The row-region fingerprint of an address.
     #[must_use]
     pub fn fingerprint(&self, addr: u64) -> u64 {
@@ -259,7 +287,25 @@ struct ThermalRecurrenceChannel {
     order: VecDeque<(RegionIdentity, u64)>,
     last_time_ns: Option<u64>,
     heat: f64,
-    lead_level: u64,
+    milestones: HeatMilestones,
+}
+
+#[derive(Default)]
+struct HeatMilestones(u64);
+
+impl HeatMilestones {
+    fn observe(&mut self, heat: f64, cooled: bool) -> Option<u8> {
+        if cooled {
+            self.0 = 0;
+        }
+        let level = heat.floor().max(0.0) as u64;
+        if level >= 122 && level > self.0 {
+            self.0 = level;
+            Some(7)
+        } else {
+            None
+        }
+    }
 }
 struct ThermalObservation {
     cooled: bool,
@@ -277,7 +323,7 @@ impl ThermalRecurrenceChannel {
             order: VecDeque::new(),
             last_time_ns: None,
             heat: 0.0,
-            lead_level: 0,
+            milestones: HeatMilestones::default(),
         }
     }
     fn observe(&mut self, identity: RegionIdentity, time_ns: u64) -> ThermalObservation {
@@ -286,16 +332,12 @@ impl ThermalRecurrenceChannel {
             self.last.clear();
             self.order.clear();
             self.heat = 0.0;
-            self.lead_level = 0;
             cooled = true;
         }
         if let Some(last) = self.last_time_ns {
             let previous_heat = self.heat;
             self.heat *= (-((time_ns - last) as f64) / self.tau_ns).exp();
             cooled |= previous_heat >= 1.0 && self.heat < 1.0;
-            if cooled {
-                self.lead_level = 0;
-            }
         }
         if self.last.contains_key(&identity) {
             self.heat += 1.0;
@@ -315,13 +357,7 @@ impl ThermalRecurrenceChannel {
         }
         self.last.insert(identity, time_ns);
         self.order.push_back((identity, time_ns));
-        let heat_level = self.heat.floor().max(0.0) as u64;
-        let lead_class = if heat_level >= 122 && heat_level > self.lead_level {
-            self.lead_level = heat_level;
-            Some(7)
-        } else {
-            None
-        };
+        let lead_class = self.milestones.observe(self.heat, cooled);
         ThermalObservation {
             cooled,
             dangerous: self.heat >= self.threshold,
@@ -425,17 +461,8 @@ impl RamMonitor {
         feed: &mut SwarmLiveFeed,
         sample: AccessSample,
     ) -> Option<imperium_nocopy_swarm_live::SwarmReceipt> {
-        let (key, kind, pid) = if sample.phys != 0 {
-            (sample.phys, AddressKind::PhysicalData, 0)
-        } else {
-            (sample.addr, sample.address_kind, sample.pid)
-        };
-        self.evidence.observe(kind, sample.time_ns.is_some());
-        let identity = RegionIdentity {
-            kind,
-            pid,
-            block: self.geometry.fingerprint(key),
-        };
+        let identity = self.geometry.identity(sample);
+        self.evidence.observe(identity.kind, sample.time_ns.is_some());
         let thermal = sample
             .time_ns
             .map(|time_ns| self.timed_secondary.observe(identity, time_ns));

@@ -1,0 +1,9 @@
+[package]
+name = "atom-rhythm-principles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Intrinsic phase, entropy, binding, habituation and resonance states"
+
+[dependencies]

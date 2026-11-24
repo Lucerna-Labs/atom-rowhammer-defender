@@ -1,7 +1,7 @@
 # Vendored crates provenance
 
 - `vendor/nocopy/*` — byte-copies of the no-copy atom crates from
-  `/home/jesse/Desktop/Projects/imperium-main/imperium-main/encrypted key protection/`
+  `imperium-main/imperium-main/encrypted key protection/`
   (workspace root manifest and Cargo.lock removed so this repo's root owns
   workspace inheritance; `nocopy-demo` dropped as unneeded).
 - `crates/imperium-nocopy-vpn-observer`, `crates/imperium-nocopy-swarm`,

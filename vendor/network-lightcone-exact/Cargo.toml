@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["Lucerna Labs"]
+# Declared only because the vendored Spiderweb members reference
+# `version.workspace` / `rust-version.workspace`; no Imperium crate inherits
+# these (they hardcode `version = "0.1.0"`).
+version = "0.1.0"
+rust-version = "1.91"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full", "signal"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+async-trait = "0.1"
+bytes = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+parking_lot = "0.12"
+
+sha2 = "0.10"
+spiderweb = { path = "../spiderweb-bus-upstream/crates/spiderweb" }
+spider = { path = "../spiderweb-bus-upstream/crates/spider" }

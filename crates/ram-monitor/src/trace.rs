@@ -1,9 +1,11 @@
 use std::fmt;
 use std::path::Path;
 
+use crate::bounded_file::read_regular_text;
 use crate::{AccessSample, AccessSource, AddressKind};
 
 pub const TRACE_MAX_SAMPLES: usize = 1_000_000;
+pub const TRACE_MAX_FILE_BYTES: usize = 64 * 1024 * 1024;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TraceError {
@@ -84,7 +86,7 @@ pub fn parse_trace(text: &str) -> Result<Vec<AccessSample>, TraceError> {
 }
 
 pub fn read_trace(path: &Path) -> Result<Vec<AccessSample>, TraceError> {
-    let text = std::fs::read_to_string(path)
+    let text = read_regular_text(path, TRACE_MAX_FILE_BYTES)
         .map_err(|error| TraceError::new(format!("{}: {error}", path.display())))?;
     parse_trace(&text)
 }

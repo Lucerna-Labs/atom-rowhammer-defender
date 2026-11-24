@@ -1,6 +1,50 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/atom-network-lightcone",
+    "crates/atom-keyboard-guard",
+    "crates/atom-credential-guard",
+    "crates/atom-row-trace-principles",
+    "crates/atom-row-trace-engine",
+    "crates/ram-monitor-bus",
+    "crates/ram-monitor-cognitive",
+    "crates/ram-monitor-file-events",
+    "crates/atom-auth-principles",
+    "crates/atom-auth-engine",
+    "crates/atom-auth-field-principles",
+    "crates/atom-auth-field-engine",
+    "crates/atom-auth-metastable-principles",
+    "crates/atom-auth-metastable-engine",
+    "crates/atom-port-principles",
+    "crates/atom-port-engine",
+    "crates/atom-port-occupation-principles",
+    "crates/atom-port-occupation-engine",
+    "crates/atom-integrity-material-principles",
+    "crates/atom-integrity-material-engine",
+    "crates/atom-integrity-coupled-principles",
+    "crates/atom-integrity-coupled-engine",
+    "crates/atom-rhythm-principles",
+    "crates/atom-rhythm-engine",
+    "crates/atom-rhythm-four-principles",
+    "crates/atom-rhythm-four-engine",
+    "crates/atom-recoil-principles",
+    "crates/atom-recoil-engine",
+    "crates/atom-pressure-principles",
+    "crates/atom-pressure-engine",
+    "crates/atom-pressure-hop-principles",
+    "crates/atom-pressure-hop-engine",
+    "crates/atom-psi-coupling-principles",
+    "crates/atom-psi-coupling-engine",
+    "crates/atom-row-phase-principles",
+    "crates/atom-row-phase-engine",
+    "crates/atom-row-quorum-principles",
+    "crates/atom-row-quorum-engine",
+    "crates/atom-process-lineage-principles",
+    "crates/atom-process-lineage-engine",
+    "crates/atom-exact-row-site-principles",
+    "crates/atom-exact-row-site-engine",
+    "vendor/integrity-e013/crates/axiom-primitives",
+    "vendor/integrity-e013/crates/axiom-engine",
     "crates/ram-monitor",
     "crates/ram-monitor-gui",
     "crates/imperium-nocopy-vpn-observer",
@@ -15,10 +59,11 @@ members = [
     "vendor/nocopy/nocopy-swarm-principles",
     "vendor/nocopy/nocopy-swarm-engine",
 ]
+exclude = ["vendor/network-lightcone-exact", "vendor/cognitive-engine-upstream", "vendor/spiderweb-bus-upstream"]
 
 [workspace.package]
 edition = "2021"
-license = "PolyForm-Noncommercial-1.0.0"
+license = "MIT"
 authors = ["Lucerna Labs, a division of Lucerna Media"]
 version = "0.1.0"
 

@@ -1,0 +1,10 @@
+[package]
+name = "atom-port-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed port observation composition over unitary and reaction field states"
+
+[dependencies]
+atom-port-principles = { path = "../atom-port-principles" }

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+helper=/opt/ram-monitor/atom-keyboard-guard
+chown root:adm "$helper"
+chmod 0750 "$helper"
+/usr/sbin/setcap cap_bpf,cap_perfmon=ep "$helper"
+network=/opt/ram-monitor/atom-network-lightcone
+chown root:adm "$network"
+chmod 0750 "$network"
+/usr/sbin/setcap cap_net_raw=ep "$network"

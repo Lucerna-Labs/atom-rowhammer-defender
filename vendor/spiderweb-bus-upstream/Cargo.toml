@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+members = ["crates/spiderweb", "crates/spider"]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "MIT"
+rust-version = "1.91"
+
+[workspace.dependencies]
+spiderweb = { path = "crates/spiderweb" }

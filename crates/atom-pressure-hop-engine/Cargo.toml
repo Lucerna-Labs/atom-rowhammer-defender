@@ -1,0 +1,10 @@
+[package]
+name = "atom-pressure-hop-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed qutrit two-hop pressure material composition"
+
+[dependencies]
+atom-pressure-hop-principles = { path = "../atom-pressure-hop-principles" }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject the withdrawn CPU/perf collector from the portable trace project."""
+"""Reject the withdrawn PMU collector from the Rowhammer trace path."""
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
@@ -21,4 +21,4 @@ for folder in (root / "crates/ram-monitor", root / "crates/ram-monitor-gui"):
                 failures.append(f"{source.relative_to(root)}: {token}")
 if failures:
     raise SystemExit("Withdrawn CPU implementation found:\n" + "\n".join(failures))
-print("Portable trace/replay sources only; no CPU/perf collector.")
+print("No withdrawn PMU collector found; Rowhammer uses trace/replay; selected file watch reads local files.")

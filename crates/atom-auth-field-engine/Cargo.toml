@@ -1,0 +1,10 @@
+[package]
+name = "atom-auth-field-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed compositions over an eight-site auth observation field"
+
+[dependencies]
+atom-auth-field-principles = { path = "../atom-auth-field-principles" }

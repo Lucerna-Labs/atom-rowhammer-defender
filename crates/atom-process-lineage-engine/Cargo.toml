@@ -1,0 +1,10 @@
+[package]
+name = "atom-process-lineage-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Fixed composition of process-lineage material primitives"
+
+[dependencies]
+atom-process-lineage-principles = { path = "../atom-process-lineage-principles" }

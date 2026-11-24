@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Atom Defender
+Comment=Exact-path Network Lightcone, Rowhammer analysis, file restoration and keyboard access alerts
+Exec=/opt/ram-monitor/ram-monitor-gui
+Icon=atom-rowhammer-defender
+Type=Application
+Categories=System;Monitor;
+Terminal=false
